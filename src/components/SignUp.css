@@ -1,0 +1,4 @@
+.bg-primary{
+    background: linear-gradient(#17174d, #0a1b41, #040491, #161c2b);
+    clip-path: polygon(0% 0%, 100% 0%, 26.8% 100.3%, 0% 100%);
+}

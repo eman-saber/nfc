@@ -1,0 +1,16 @@
+{
+  "Citizen Data": [
+      { "id": "576", "fullName": "Eman Saber Khattab", "address": "cairo","birth":"26-2-2003" },
+      { "id": "123", "fullName": "Hussein Ibrahim", "address": "Qena","birth":"sep,1,2003" },
+      { "id": "456", "fullName": "Baraa sameh", "address": "banha","birth":"6-2-2003" },
+      { "id": "789", "fullName": "Jihaaddd", "address": "cairo","birth":"20-2-2003" }
+      
+    ],
+    "Medical Data": [
+      { "id": "576", "recordDate": "5-5-2015", "medicalRecordId": "576" ,"diagnosis":"----------"},
+      { "id": "123", "recordDate": "4-4-2014", "medicalRecordId": "345","diagnosis":"**************" },
+      { "id": "456", "recordDate": "6-6-2016", "medicalRecordId": "262","diagnosis":"=========" },
+      { "id": "789", "recordDate": "7-7-2017", "medicalRecordId": "105","diagnosis":"+++++++++++" }
+    ]
+   
+}

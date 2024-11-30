@@ -1,0 +1,19 @@
+.nav-color{
+    box-shadow: 0 0 25px #236ac0;
+    background: linear-gradient(#17174d, #0a1b41, #040491, #161c2b);
+}
+
+button#dropdownMenuButton {
+    background: none; 
+   
+ 
+  }
+  .navbar-link img {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .navbar-link img:hover
+  {
+    border-bottom: 2px solid white;
+  }
