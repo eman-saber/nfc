@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/eman-saber/nfc.git/static/css/main.b7734c23.css",
+    "main.js": "/eman-saber/nfc.git/static/js/main.26891e2b.js",
+    "static/js/453.844a5b5c.chunk.js": "/eman-saber/nfc.git/static/js/453.844a5b5c.chunk.js",
+    "static/media/homePic.svg": "/eman-saber/nfc.git/static/media/homePic.35ebd7032dc038ef3e18603d071a337c.svg",
+    "static/media/doctorIcon.png": "/eman-saber/nfc.git/static/media/doctorIcon.19f0c42bbff954f31a18.png",
+    "static/media/userIcone.png": "/eman-saber/nfc.git/static/media/userIcone.b5537a17625172a6cdb6.png",
+    "static/media/nfcLogo.png": "/eman-saber/nfc.git/static/media/nfcLogo.08defffd697d4f6ee4b6.png",
+    "static/media/dashboardIcon.png": "/eman-saber/nfc.git/static/media/dashboardIcon.76599fc719a8662d50fb.png",
+    "static/media/logInpic.svg": "/eman-saber/nfc.git/static/media/logInpic.79872296556418253ca4b3289f856112.svg",
+    "static/media/signUpPic.svg": "/eman-saber/nfc.git/static/media/signUpPic.badf54c00f2f29b0c263828907df08bf.svg",
+    "index.html": "/eman-saber/nfc.git/index.html",
+    "main.b7734c23.css.map": "/eman-saber/nfc.git/static/css/main.b7734c23.css.map",
+    "main.26891e2b.js.map": "/eman-saber/nfc.git/static/js/main.26891e2b.js.map",
+    "453.844a5b5c.chunk.js.map": "/eman-saber/nfc.git/static/js/453.844a5b5c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b7734c23.css",
+    "static/js/main.26891e2b.js"
+  ]
+}
