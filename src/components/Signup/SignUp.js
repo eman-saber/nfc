@@ -1,8 +1,8 @@
 import FormSignup from "./FormSignup";
 import { Link } from "react-router-dom";
-import signUpPic from '../images/signUpPic.svg'
+import signUpPic from '../../images/signUpPic.svg'
 import { Container, Row, Col } from 'react-bootstrap';
-import '../components/SignUp.css';
+import './SignUp.css';
 function SignUp(){
     return(
         <>

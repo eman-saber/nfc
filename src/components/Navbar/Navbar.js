@@ -1,9 +1,9 @@
-import '../components/Navbar.css';
+import './Navbar.css';
 import { Link } from 'react-router-dom';
-import nfcLogo from '../images/nfcLogo.png';
-import dashboardIcon from '../images/dashboardIcon.png';
-import userIcone from '../images/userIcone.png';
-import doctorIcon from '../images/doctorIcon.png';
+import nfcLogo from '../../images/nfcLogo.png';
+import dashboardIcon from '../../images/dashboardIcon.png';
+import userIcone from '../../images/userIcone.png';
+import doctorIcon from '../../images/doctorIcon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 

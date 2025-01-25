@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import LogInPic from '../images/logInpic.svg'
+import LogInPic from '../../images/logInpic.svg'
 import { Container, Row, Col } from 'react-bootstrap';
-import '../components/LogIn.css';
+import './LogIn.css';
 import FormLogIn from "./FormLogIn";
 function LogIn(){
     return(
