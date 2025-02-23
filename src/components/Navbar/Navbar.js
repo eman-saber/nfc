@@ -1,9 +1,9 @@
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 import nfcLogo from '../../images/nfcLogo.png';
-import dashboardIcon from '../../images/dashboardIcon.png';
+// import dashboardIcon from '../../images/dashboardIcon.png';
 import userIcone from '../../images/userIcone.png';
-import doctorIcon from '../../images/doctorIcon.png';
+// import doctorIcon from '../../images/doctorIcon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +13,7 @@ function Navbar() {
       <nav className="navbar nav-color">
         <div className="container-fluid d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center">
-            <Link className="navbar-brand d-flex align-items-center" to="/home">
+            <Link className="navbar-brand d-flex align-items-center" to="/">
               <img
                 src={nfcLogo}
                 alt="Logo"
@@ -26,11 +26,11 @@ function Navbar() {
           </div>
           <div className="d-flex justify-content-center align-items-center">
   <ul className="navbar-nav d-flex flex-row justify-content-between gap-5">
-    <li className="nav-item">
+    {/* <li className="nav-item">
       <Link 
         className="nav-link navbar-link active" 
         aria-current="page" 
-        to="/home"
+        to="/"
       >
         <img
           src={dashboardIcon}
@@ -40,7 +40,7 @@ function Navbar() {
           className="d-inline-block align-text-top"
         />
       </Link>
-    </li>
+    </li> */}
     <li className="nav-item">
       <Link 
         className="nav-link navbar-link active" 
@@ -55,7 +55,7 @@ function Navbar() {
         />
       </Link>
     </li>
-    <li className="nav-item">
+    {/* <li className="nav-item">
       <Link 
         className="nav-link navbar-link active"
         to="/doctorprofile"
@@ -68,7 +68,7 @@ function Navbar() {
           className="d-inline-block align-text-top"
         />
       </Link>
-    </li>
+    </li> */}
   </ul>
 </div>
 

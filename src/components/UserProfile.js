@@ -1,47 +1,18 @@
-import React, { useState, useEffect } from "react";
-import SearchInput from "./SearchInput";
-import TableData from "./TableData";
-
-function UserProfile () {
-  const [searchId, setSearchId] = useState(""); 
-  const [citizenData, setCitizenData] = useState(null); 
-  const [medicalData, setMedicalData] = useState([]); 
-
-  useEffect(() => {
-    if (searchId) {
-   
-      fetch(`http://localhost:5000/Citizen%20Data?id=${searchId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.length > 0) {
-            setCitizenData(data[0]); 
-          } else {
-            setCitizenData(null); 
-          }
-        })
-      fetch(`http://localhost:5000/Medical%20Data?id=${searchId}`)
-        .then((res) => res.json())
-        .then((data) => setMedicalData(data)) 
-    }
-  }, [searchId]); 
-
-  return (
-    <div>
-    <SearchInput onSearch={setSearchId} />
-      {citizenData && (
-        <div>
-        <h3 className="text-center mb-4">Citizen Data</h3>
-          <TableData data={[citizenData]} />
-        </div>
-      )}
-      {medicalData && (
-        <div>
-        <h3 className="text-center mb-4">medical Data</h3>
-          <TableData data={medicalData} />
-        </div>
-      )}
-    </div>
-  );
+import { Link } from "react-router-dom";
+function UserProfile() {
+    return (
+        <div className="d-flex flex-column align-items-center mt-5 pt-3">
+        <Link to={'createcitizen'} className="btn btn-primary mb-2 w-50">
+          Create New Citizen
+        </Link>
+        <Link to={'createmedical'} className="btn btn-success mb-2 w-50">
+          Create Medical Data
+        </Link>
+        <Link to={'createradiology'} className="btn btn-warning w-50">
+          Create Radiology
+        </Link>
+      </div>
+      
+    )   
 };
-
 export default UserProfile;

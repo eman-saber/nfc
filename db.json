@@ -1,0 +1,16 @@
+{
+    "Citizen Data": [
+        { "national_ID": "576", "full_name": "Eman Saber Khattab", "address": "cairo" ,"blood_type":"A","birth_date":"26-2-2003"},
+        { "national_ID": "123", "full_name": "Hussein Ibrahim", "address": "Qena" ,"blood_type":"A","birth_date":"sep,1,2003"},
+        { "national_ID": "456", "full_name": "Baraa sameh", "address": "banha","blood_type":"A" ,"birth_date":"6-2-2003"},
+        { "national_ID": "789", "full_name": "Jihaaddd", "address": "cairo" ,"blood_type":"A","birth_date":"20-2-2003"}
+        
+      ],
+      "Medical Data": [
+        { "id": "576" ,"diagnosis":"----------", "Date": "5-5-2015","treatment":" "},
+        { "id": "123","diagnosis":"***********","Date": "4-4-2014" ,"treatment":" "},
+        { "id": "456", "diagnosis":"=========" ,"Date": "6-6-2016","treatment":" "},
+        { "id": "789","diagnosis":"+++++++++++", "Date": "7-7-2017","treatment":" "}
+      ]
+     
+  }

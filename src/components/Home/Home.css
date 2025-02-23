@@ -1,4 +1,8 @@
 .light-gray-text {
-    color: #b0b0b0;
-    text-align: center;
+    color: white;
+    
 }
+ .homecolor{
+    background: linear-gradient(#0e276d , #296bb1,#091e50);
+    height: 100vh;
+ }

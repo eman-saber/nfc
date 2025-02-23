@@ -1,6 +1,7 @@
 .nav-color{
-    box-shadow: 0 0 25px #236ac0;
-    background: linear-gradient(#17174d, #0a1b41, #040491, #161c2b);
+    box-shadow: 0 0 10px #236ac0;
+    background: linear-gradient(#0c1d4d , #15416f,#091e50);
+    /* background-color: #578FCA; */
 }
 
 button#dropdownMenuButton {
