@@ -16,7 +16,7 @@ function CreateCitizen() {
       body: JSON.stringify({
         national_ID: id,
         full_name: name,
-        address: address,
+        address: Array.isArray(address) ? address : [address],
         blood_type: blood,
         birth_date: new Date(birthdate).toISOString().split("T")[0],
       }),

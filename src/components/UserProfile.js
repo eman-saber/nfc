@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 function UserProfile() {
     return (
-        <div className="d-flex flex-column align-items-center mt-5 pt-3">
+      
+        <div className="d-flex flex-column align-items-center mt-5 pt-3 ">
         <Link to={'createcitizen'} className="btn btn-primary mb-2 w-50">
           Create New Citizen
         </Link>
@@ -12,6 +13,7 @@ function UserProfile() {
           Create Radiology
         </Link>
       </div>
+      
       
     )   
 };

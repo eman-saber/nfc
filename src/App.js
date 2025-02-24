@@ -39,8 +39,10 @@ function App() {
                 <div className="col-2 sidebar">
                   <SideBar />
                 </div>
-                <div className=" col-10 ">
-                  <Outlet /> 
+                <div className=" col-10 user-img">
+                <div className="overlay"><Outlet /></div>
+
+                   
                   
                 </div>
               </div>

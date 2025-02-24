@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+
 function TableData({ data, setData }) {
   const [editingCitizen, setEditingCitizen] = useState(null);
   const [updatedData, setUpdatedData] = useState({
+    _id: "",
     national_ID: "",
     full_name: "",
     address: "",
@@ -10,13 +12,13 @@ function TableData({ data, setData }) {
     birth_date: "",
   });
 
-  const columns = ["_id","national_ID", "full_name", "address", "blood_type", "birth_date"];
+  const columns = ["_id", "national_ID", "full_name", "address", "blood_type", "birth_date"];
 
   return (
     <div className="container mt-4">
       {data && data.length > 0 ? (
         <>
-          <div className="row">
+          <div className="row justify-content-center">
             <div className="col-md-8">
               <table className="table table-striped table-bordered table-hover text-center">
                 <thead className="table-primary">
@@ -55,7 +57,7 @@ function TableData({ data, setData }) {
       {editingCitizen && (
         <div className="container mt-4">
           <h3 className="text-center">Update Citizen Data</h3>
-          <form className="p-4 border rounded shadow">
+          <form className="p-4 border rounded shadow bg-white">
             {columns.map((key) => (
               <div className="mb-3" key={key}>
                 <label className="form-label">{key.replace("_", " ")}</label>
@@ -65,7 +67,7 @@ function TableData({ data, setData }) {
                   name={key}
                   value={updatedData[key]}
                   onChange={(e) => setUpdatedData({ ...updatedData, [key]: e.target.value })}
-                  disabled={key === "national_ID"} 
+                  disabled={key === "national_ID" || key === "_id"} // 🔹 لا يمكن تعديلهم
                 />
               </div>
             ))}
@@ -84,13 +86,13 @@ function TableData({ data, setData }) {
 
   async function handleDelete(id) {
     if (!id) {
-      Swal.fire("Error", " Cannot delete citizen because the ID is missing!", "error");
+      Swal.fire("Error", "Cannot delete citizen because the ID is missing!", "error");
       return;
     }
 
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to Delete this Citizen!",
+      text: "Do you want to delete this Citizen?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -121,18 +123,24 @@ function TableData({ data, setData }) {
   function handleEditClick(citizen) {
     setEditingCitizen(citizen);
     setUpdatedData({
+      _id: citizen._id || "",
       national_ID: citizen.national_ID || "",
       full_name: citizen.full_name || "",
-      address: citizen.address || "",
+      address: Array.isArray(citizen.address) ? citizen.address.join(", ") : citizen.address || "",
       blood_type: citizen.blood_type || "",
       birth_date: citizen.birth_date || "",
     });
   }
 
   async function handleUpdate() {
-    if (!editingCitizen) return;
+    if (!editingCitizen)
+       return;
+    if (updatedData.national_ID !== editingCitizen.national_ID || updatedData._id !== editingCitizen._id) {
+      Swal.fire("Error", "ID and National ID cannot be changed!", "error");
+      return;
+    }
 
-    const { national_ID, ...updatedFields } = updatedData;
+    const { _id, national_ID, ...updatedFields } = updatedData;
 
     const formattedData = {
       ...updatedFields,
@@ -181,4 +189,5 @@ function TableData({ data, setData }) {
     }
   }
 }
+
 export default TableData;
