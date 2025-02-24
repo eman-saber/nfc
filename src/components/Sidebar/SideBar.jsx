@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faUser, faNotesMedical, faXRay } from "@fortawesome/free-solid-svg-icons";
 import "./SideBar.css";
-import userIcone from "../../images/userIcone.png";
+import homePic from "../../images/homePic.svg";
 
 function SideBar() {
     const location = useLocation();
@@ -12,13 +12,8 @@ function SideBar() {
             <ul className="list-unstyled">
                 <li className="nav-item text-center">
                     <Link className="nav-link navbar-link active" to="/userprofile">
-                        <img
-                            src={userIcone}
-                            alt="User Profile"
-                            width="35"
-                            height="35"
-                            className="d-inline-block align-text-top"
-                        />
+                    <img src={homePic} alt="" width="90" className="" />
+                    <h6 className="light-gray-text">MCSEI</h6>
                     </Link>
                 </li>
                 <li>

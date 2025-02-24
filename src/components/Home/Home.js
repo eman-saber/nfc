@@ -1,7 +1,6 @@
 import "./Home.css";
 import homePic from "../../images/homePic.svg";
 import nfcLogo from '../../images/nfcLogo.png';
-import userIcone from '../../images/userIcone.png';
 import { Link } from "react-router-dom";
 function Home() {
   return (
@@ -25,13 +24,8 @@ function Home() {
         className="nav-link navbar-link active" 
         to="/userprofile"
       >
-        <img
-          src={userIcone}
-          alt="User Profile"
-          width="35"
-          height="35"
-          className="d-inline-block align-text-top"
-        />
+      <button className="btn btn-primary btn-lg">Get Started</button>
+
       </Link>
   </div>
 </div>
