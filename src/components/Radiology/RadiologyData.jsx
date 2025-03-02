@@ -32,7 +32,7 @@ function RadiologyData() {
   
       const radiologyArray = result.data; 
   
-      const filteredData = radiologyArray.filter(record => record.citizenNid === searchId);
+      const filteredData = radiologyArray.filter(record => record.national_ID === searchId);
   
       if (filteredData.length > 0) {
         setRadiologyData(filteredData);

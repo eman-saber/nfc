@@ -49,9 +49,9 @@ function CreateCitizen() {
   return (
     <>
       <h2 className="text-center fw-bold text-primary">Create New Citizen</h2>
-      <form onSubmit={formSubmit}>
+      <form className="m-3" onSubmit={formSubmit} >
         <div className="mb-3">
-          <label htmlFor="nationalID" className="form-label">National ID:</label>
+          <label htmlFor="nationalID" className="form-label  fw-bold">National ID:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -63,7 +63,7 @@ function CreateCitizen() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="fullName" className="form-label">Name:</label>
+          <label htmlFor="fullName" className="form-label  fw-bold">Name:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -75,7 +75,7 @@ function CreateCitizen() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="address" className="form-label">Address:</label>
+          <label htmlFor="address" className="form-label  fw-bold">Address:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -87,7 +87,7 @@ function CreateCitizen() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="bloodType" className="form-label">Blood Type:</label>
+          <label htmlFor="bloodType" className="form-label fw-bold">Blood Type:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -99,7 +99,7 @@ function CreateCitizen() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="dateOfBirth" className="form-label">Birth Date:</label>
+          <label htmlFor="dateOfBirth" className="form-label  fw-bold">Birth Date:</label>
           <input 
             type="date" 
             className="form-control" 

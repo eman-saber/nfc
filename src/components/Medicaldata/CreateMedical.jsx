@@ -2,8 +2,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 function CreateMedical() {
-  const [id, setId] = useState("");
-  const [citizenId, setCitizenId] = useState(""); 
+  const [nationalId, setNationalId] = useState(""); 
   const [diagnosis, setDiagnosis] = useState("");
   const [treatment, setTreatment] = useState("");
   const [clinicName, setClinicName] = useState("");
@@ -18,8 +17,7 @@ function CreateMedical() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        citizenNid: id,
-        citizen_id: citizenId, 
+        national_ID: nationalId, 
         diagnosis: diagnosis.split(","),
         treatment: treatment.split(","),
         clinic_name: clinicName,
@@ -31,13 +29,12 @@ function CreateMedical() {
         console.log("Response after creation:", result);
         Swal.fire({
           title: "Success!",
-          text: "✅ Citizen created successfully!",
+          text: "✅ Medical data created successfully!",
           icon: "success",
           confirmButtonColor: "#28a745",
         });
 
-        setId("");
-        setCitizenId(""); 
+        setNationalId(""); 
         setDiagnosis("");
         setTreatment("");
         setClinicName("");
@@ -54,36 +51,25 @@ function CreateMedical() {
         });
       });
   };
+
   return (
     <>
       <h2 className="text-center fw-bold text-primary">Create Medical Data</h2>
-      <form onSubmit={formSubmit}>
+      <form className="m-3" onSubmit={formSubmit}>
         <div className="mb-3">
-          <label htmlFor="nationalID" className="form-label">National ID:</label>
+          <label htmlFor="nationalID" className="form-label fw-bold">National ID:</label>
           <input 
             type="text" 
             className="form-control" 
             id="nationalID" 
             placeholder="Enter national ID" 
             required 
-            value={id} 
-            onChange={(e) => setId(e.target.value)} 
+            value={nationalId} 
+            onChange={(e) => setNationalId(e.target.value)} 
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="citizenID" className="form-label">Citizen ID:</label>
-          <input 
-            type="text" 
-            className="form-control" 
-            id="citizenID" 
-            placeholder="Enter citizen ID" 
-            required 
-            value={citizenId} 
-            onChange={(e) => setCitizenId(e.target.value)} 
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="diagnosis" className="form-label">Diagnosis:</label>
+          <label htmlFor="diagnosis" className="form-label fw-bold">Diagnosis:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -95,7 +81,7 @@ function CreateMedical() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="treatment" className="form-label">Treatment:</label>
+          <label htmlFor="treatment" className="form-label fw-bold">Treatment:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -107,7 +93,7 @@ function CreateMedical() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="clinicName" className="form-label">Clinic Name:</label>
+          <label htmlFor="clinicName" className="form-label fw-bold">Clinic Name:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -119,7 +105,7 @@ function CreateMedical() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="clinicCode" className="form-label">Clinic Code:</label>
+          <label htmlFor="clinicCode" className="form-label fw-bold">Clinic Code:</label>
           <input 
             type="text" 
             className="form-control" 
@@ -135,4 +121,5 @@ function CreateMedical() {
     </>
   );
 }
+
 export default CreateMedical;

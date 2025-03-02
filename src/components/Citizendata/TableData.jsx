@@ -67,7 +67,7 @@ function TableData({ data, setData }) {
                   name={key}
                   value={updatedData[key]}
                   onChange={(e) => setUpdatedData({ ...updatedData, [key]: e.target.value })}
-                  disabled={key === "national_ID" || key === "_id"} // 🔹 لا يمكن تعديلهم
+                  disabled={key === "national_ID" || key === "_id"} 
                 />
               </div>
             ))}

@@ -14,7 +14,7 @@ function Citizendata() {
   
     try {
       const response = await fetch(
-        `https://medical-website-production.up.railway.app/citizens`,  
+        "https://medical-website-production.up.railway.app/citizens",  
         { method: "GET", headers: { "Content-Type": "application/json" } }
       );
   

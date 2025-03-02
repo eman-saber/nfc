@@ -4,7 +4,8 @@ import Swal from "sweetalert2";
 function TableRadiologydata({ data, setData }) {
   const [editingRecord, setEditingRecord] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
-  const columns = ["citizenNid", "radiology_type", "radiologistNotes", "radiology_date", "images"];
+  const columns = ["national_ID", "radiology_type", "radiologistNotes", "images"];
+  
   const handleDelete = async (id) => {
     if (!id) {
       Swal.fire("Error", "Cannot delete record because the ID is missing!", "error");
@@ -22,7 +23,7 @@ function TableRadiologydata({ data, setData }) {
 
     if (confirmDelete.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:3000/radiology/delete-citizen/${id}`, {
+        const response = await fetch(`https://medical-website-production.up.railway.app/radiology/delete-citizen/${id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
         });
@@ -31,18 +32,20 @@ function TableRadiologydata({ data, setData }) {
           throw new Error(`Failed to delete record. Response status: ${response.status}`);
         }
 
-        setData((prevData) => prevData.filter((record) => record._id !== id));
+        setData((prevData) => prevData.filter((record) => record.national_ID !== id));
 
         Swal.fire("Deleted!", "✅ Record deleted successfully!", "success");
       } catch (error) {
-        Swal.fire("Error", "An error occurred while deleting the record.", "error");
+        Swal.fire("Error", `An error occurred while deleting the record: ${error.message}`, "error");
       }
     }
   };
+  
   const handleEditClick = (record) => {
     setEditingRecord(record);
     setUpdatedData({ ...record });
   };
+  
   const handleUpdate = async () => {
     if (!editingRecord) return;
     const confirmUpdate = await Swal.fire({
@@ -57,18 +60,17 @@ function TableRadiologydata({ data, setData }) {
 
     if (confirmUpdate.isConfirmed) {
       try {
-        const { _id, createdAt, updatedAt, __v, citizenNid, images, ...allowedData } = updatedData;
+        const { _id, createdAt, updatedAt, __v, ...allowedData } = updatedData;
 
         const formData = new FormData();
         formData.append("radiology_type", allowedData.radiology_type);
         formData.append("radiologistNotes", allowedData.radiologistNotes);
-        formData.append("radiology_date", allowedData.radiology_date);
 
-        if (updatedData.image) {
-          formData.append("file", updatedData.image, updatedData.image.name);
+        if (updatedData.images instanceof File) {
+          formData.append("file", updatedData.images);
         }
 
-        const response = await fetch(`http://localhost:3000/radiology/update-citizen/${editingRecord._id}`, {
+        const response = await fetch(`https://medical-website-production.up.railway.app/radiology/update-citizen/${editingRecord.national_ID}`, {
           method: "PATCH",
           body: formData,
         });
@@ -79,7 +81,7 @@ function TableRadiologydata({ data, setData }) {
         }
 
         setData((prevData) =>
-          prevData.map((record) => (record._id === editingRecord._id ? { ...updatedData } : record))
+          prevData.map((record) => (record.national_ID === editingRecord.national_ID ? { ...updatedData } : record))
         );
         setEditingRecord(null);
 
@@ -89,6 +91,7 @@ function TableRadiologydata({ data, setData }) {
       }
     }
   };
+
   return (
     <>
     <div className="container mt-4">
@@ -111,12 +114,12 @@ function TableRadiologydata({ data, setData }) {
                       <td key={key}>
                         {key === "images" ? (
                           row.images && row.images.length > 0 ? (
-                            <img src={row.images[0].secure_url} alt="Radiology" width="50" />
+                            <a href={row.images[0].secure_url} target="_blank" rel="noopener noreferrer">
+                              View Image
+                            </a>
                           ) : (
                             "No Image"
                           )
-                        ) : key === "radiology_date" ? (
-                          new Date(row[key]).toISOString().split("T")[0]
                         ) : (
                           row[key]
                         )}
@@ -126,7 +129,7 @@ function TableRadiologydata({ data, setData }) {
                       <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditClick(row)}>
                         Update
                       </button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(row._id)}>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(row.national_ID)}>
                         Delete
                       </button>
                     </td>
@@ -143,20 +146,31 @@ function TableRadiologydata({ data, setData }) {
       {editingRecord && (
         <div className="container mt-4">
           <h3 className="text-center">Update Radiology Data</h3>
-          <form className="p-4 border rounded shadow">
+          <form className="p-4 border rounded shadow bg-white">
             {columns.map((key) => (
               <div className="mb-3" key={key}>
                 <label className="form-label">{key.replace("_", " ")}</label>
-                {key === "images" ? (
-                  <p>{updatedData[key]?.length > 0 ? "Image exists" : "No Image"}</p>
-                ) : (
+                {key === "national_ID" ? (
                   <input
-                    type={key === "radiology_date" ? "date" : "text"}
+                    type="text"
                     className="form-control"
                     name={key}
-                    value={key === "radiology_date" ? new Date(updatedData[key]).toISOString().split("T")[0] : updatedData[key] || ""}
+                    value={updatedData[key] || ""}
+                    readOnly 
+                  />
+                ) : key === "images" ? (
+                  <input
+                    type="file"
+                    className="form-control"
+                    onChange={(e) => setUpdatedData({ ...updatedData, images: e.target.files[0] })}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    name={key}
+                    value={updatedData[key] || ""}
                     onChange={(e) => setUpdatedData({ ...updatedData, [key]: e.target.value })}
-                    disabled={key === "citizenNid"}
                   />
                 )}
               </div>
@@ -174,5 +188,5 @@ function TableRadiologydata({ data, setData }) {
     </>
   );
 }
-export default TableRadiologydata;
 
+export default TableRadiologydata;

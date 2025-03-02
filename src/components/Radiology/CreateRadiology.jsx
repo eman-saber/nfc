@@ -4,12 +4,11 @@ import RadiologyForm from "./RadiologyForm";
 const CreateRadiology = () => {
     const handleFormSubmit = async (formData) => {
         const formdata = new FormData();
-        formdata.append("citizenNid", formData.citizenNid);  
-        formdata.append("radiology_type", formData.radiologyType);  
-        formdata.append("radiologistNotes", formData.radiologistNotes);  
-        formdata.append("radiology_date", formData.radiologyDate.split("T")[0]);  
-        if (formData.image) {
-            formdata.append("images", formData.image, formData.image.name); 
+        formdata.append("national_ID", formData.national_ID);  
+        formdata.append("radiology_type", formData.radiology_type);  
+        formdata.append("radiologistNotes", formData.radiologistNotes);   
+        if (formData.images) {
+            formdata.append("images", formData.images); 
         } else {
             Swal.fire({
                 title: "⚠️ Missing Image!",

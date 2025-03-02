@@ -33,7 +33,7 @@ function Medicaldata() {
       }
 
       const filteredData = result.medicalRecords.filter(
-        (medical) => medical.citizenNid === searchId
+        (medical) => medical.national_ID === searchId
       );
 
       if (filteredData.length > 0) {
@@ -56,9 +56,11 @@ function Medicaldata() {
       {error && <div className="alert alert-danger">{error}</div>}
       {medicalData.length > 0 && !error && (
         <TableMedicaldata data={medicalData} setData={setMedicalData} />
+        
       )}
     </div>
   );
 }
 
 export default Medicaldata;
+

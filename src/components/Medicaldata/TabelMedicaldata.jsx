@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import TableData from "../Citizendata/TableData";
 
-function TableMedicaldata({ data, setData }) {
+function TableMedicaldata({ data, setData, citizenData }) {
   const [editingMedical, setEditingMedical] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
 
-  const columns = ["citizenNid","_id", "diagnosis", "treatment","clinic_name","clinic_code"];
-  
+  const columns = [
+    "national_ID",
+    "diagnosis",
+    "treatment",
+    "clinic_name",
+    "clinic_code",
+  ];
 
-  const handleDelete = async (id) => {
-    if (!id) {
+  const handleDelete = async (national_ID) => {
+    if (!national_ID) {
       Swal.fire("Error", "Cannot delete medical record because the ID is missing!", "error");
       return;
     }
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to Delete this Medical record!",
+      text: "Do you want to delete this medical record?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -27,7 +31,7 @@ function TableMedicaldata({ data, setData }) {
     if (confirmDelete.isConfirmed) {
       try {
         const response = await fetch(
-          `https://medical-website-production.up.railway.app/medical-record/delete-medical-record/${id}`,
+          `https://medical-website-production.up.railway.app/medical-record/delete-medical-record/${national_ID}`,
           { method: "DELETE", headers: { "Content-Type": "application/json" } }
         );
 
@@ -35,9 +39,9 @@ function TableMedicaldata({ data, setData }) {
           throw new Error(`Failed to delete medical data. Response status: ${response.status}`);
         }
 
-        setData((prevData) => prevData.filter((medical) => medical._id !== id));
+        setData((prevData) => prevData.filter((medical) => medical.national_ID !== national_ID));
 
-        Swal.fire("Deleted!", "✅ medical record deleted successfully!", "success");
+        Swal.fire("Deleted!", "✅ Medical record deleted successfully!", "success");
       } catch (error) {
         Swal.fire("Error", "An error occurred while deleting the medical record.", "error");
       }
@@ -46,119 +50,117 @@ function TableMedicaldata({ data, setData }) {
 
   const handleEditClick = (medical) => {
     setEditingMedical(medical);
-    setUpdatedData({ ...medical});
+    setUpdatedData({ ...medical });
   };
 
   const handleUpdate = async () => {
     if (!editingMedical) return;
 
-    const confirmUpdate = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to save the changes?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#28a745",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update it!",
-    });
+    try {
+      console.log("Updating medical record with ID:", editingMedical.national_ID);
 
-    if (confirmUpdate.isConfirmed) {
-      try {
-        const { _id, record_date, citizenNid, createdAt, updatedAt, __v, ...allowedData } = updatedData;
-        const cleanedData = {
-          diagnosis: Array.isArray(allowedData.diagnosis) ? allowedData.diagnosis.join(", ") : allowedData.diagnosis,
-          treatment: Array.isArray(allowedData.treatment) ? allowedData.treatment.join(", ") : allowedData.treatment,
-        };
-        const response = await fetch(
-          `https://medical-website-production.up.railway.app/medical-record/update-medical-record/${editingMedical._id}`,
-          {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(cleanedData),
-          }
-        );
+      let filteredData = { ...updatedData };
 
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Failed to update citizen: ${errorText}`);
-        }
-
-        setData((prevData) =>
-          prevData.map((medical) =>
-            medical._id === editingMedical._id ? { ...updatedData } : medical
-          )
-        );
-        setEditingMedical(null);
-
-        Swal.fire("Updated!", "✅ medical record updated successfully!", "success");
-      } catch (error) {
-        Swal.fire("Error", `⚠️ An error occurred: ${error.message}`, "error");
+      if (Array.isArray(filteredData.treatment)) {
+        filteredData.treatment = filteredData.treatment.join(", ");
       }
+      if (Array.isArray(filteredData.diagnosis)) {
+        filteredData.diagnosis = filteredData.diagnosis.join(", ");
+      }
+
+      delete filteredData._id;
+      delete filteredData.recode_date;
+      delete filteredData.modified_on;
+      delete filteredData.__v;
+
+      console.log("Final Data to Send:", JSON.stringify(filteredData, null, 2));
+
+      const response = await fetch(
+        `https://medical-website-production.up.railway.app/medical-record/update-medical-record/${editingMedical.national_ID}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(filteredData),
+        }
+      );
+
+      const responseText = await response.text();
+      console.log("Server Response:", responseText);
+
+      if (!response.ok) {
+        throw new Error(`Failed to update medical record. Server Message: ${responseText}`);
+      }
+
+      setData((prevData) =>
+        prevData.map((medical) => (medical.national_ID === editingMedical.national_ID ? filteredData : medical))
+      );
+
+      setEditingMedical(null);
+      Swal.fire("Updated!", "✅ Medical record updated successfully!", "success");
+    } catch (error) {
+      console.error("Update Error:", error);
+      Swal.fire("Error", error.message, "error");
     }
   };
 
   return (
-    <><h2 className="text-primary m-3"> Medical data</h2>
     <div className="container mt-4">
-      {data && data.length > 0 ? (
-        <>
-          <div className="row">
-            <div className="col-md-8">
-              <table className="table table-striped table-bordered table-hover text-center">
-                <thead className="table-primary">
-                  <tr>
-                    {columns.map((header) => (
-                      <th key={header}>{header.replace("_", " ")}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((row, index) => (
-                    <tr key={index}>
-                      {columns.map((key) => (
-                        <td key={key}>{row[key]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <h2 className="text-primary">Medical Data</h2>
 
-          <div className="text-center mt-3">
-            <button className="btn btn-danger btn-lg" onClick={() => handleDelete(data[0]._id)}>
-              Delete
-            </button>
-            <button className="btn btn-warning btn-lg ms-2" onClick={() => handleEditClick(data[0])}>
-              Update
-            </button>
-          </div>
-          
-        </>
-      ) : (
-        <p className="text-center">No data available</p>
-        
-      )}
-      <h2 className="text-primary m-3"> Citizen data</h2>
-      <TableData data={data} setData={setData} />
+      <table className="table table-striped table-bordered table-hover text-center">
+        <thead className="table-primary">
+          <tr>
+            {columns.map((header) => (
+              <th key={header}>{header.replace("_", " ")}</th>
+            ))}
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data && data.length > 0 ? (
+            data.map((row) => (
+              <tr key={row.national_ID || row._id || Math.random()}>
+                {columns.map((key, index) => (
+                  <td key={`${row.national_ID || row._id}-${index}`}>{row[key] || "N/A"}</td>
+                ))}
+                <td>
+                  <button className="btn btn-warning btn-sm me-2" onClick={() => handleEditClick(row)}>
+                    Update
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(row.national_ID)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length + 1} className="text-center">
+                No medical records found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
       {editingMedical && (
         <div className="container mt-4">
-          <h3 className="text-center">Update Medical Data</h3>
-          <form className="p-4 border rounded shadow">
+          <h3 className="text-center">Update Medical Record</h3>
+          <form className="p-4 border rounded shadow bg-white">
             {columns.map((key) => (
               <div className="mb-3" key={key}>
                 <label className="form-label">{key.replace("_", " ")}</label>
                 <input
-                  type={key === "birth_date" ? "date" : "text"}
+                  type="text"
                   className="form-control"
                   name={key}
                   value={updatedData[key] || ""}
                   onChange={(e) => setUpdatedData({ ...updatedData, [key]: e.target.value })}
-                  disabled={key === "citizenNid"}
+                  disabled={key === "national_ID"} 
                 />
               </div>
             ))}
+
             <button type="button" className="btn btn-success me-2" onClick={handleUpdate}>
               Save Changes
             </button>
@@ -167,10 +169,9 @@ function TableMedicaldata({ data, setData }) {
             </button>
           </form>
         </div>
-        
       )}
     </div>
-    </>
   );
 }
+
 export default TableMedicaldata;

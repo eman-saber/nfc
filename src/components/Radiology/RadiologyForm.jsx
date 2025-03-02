@@ -1,47 +1,49 @@
-import { useState} from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 const RadiologyForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
-    citizenNid: "",
-    radiologyType: "",
+    national_ID: "", 
+    radiology_type: "",
     radiologistNotes: "",
-    radiologyDate: "",
-    image: null,
+    images: null,
   });
 
   const [previewURL, setPreviewURL] = useState(null);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const allowedTypes = [ "image/jpeg", "image/png"];
-      if (!allowedTypes.includes(file.type)) {
+      const allowedTypes = ["image/jpeg", "image/png", "application/dicom"];
+
+      if (!allowedTypes.includes(file.type) && !file.name.endsWith(".dcm")) {
         Swal.fire({
           icon: "error",
           title: "🚫 Invalid File Type",
-          text: "Please upload a valid  JPG, or PNG file.",
+          text: "Please upload a valid JPG, PNG, or DICOM (.dcm) file.",
         });
         return;
       }
-      setFormData({ ...formData, image: file });
-      if (file.type !== "application/dicom") {
+
+      setFormData({ ...formData, images: file });
+
+      if (file.type === "image/jpeg" || file.type === "image/png") {
         const imageURL = URL.createObjectURL(file);
         setPreviewURL(imageURL);
       } else {
         setPreviewURL(null); 
+        Swal.fire({
+          icon: "info",
+          title: "📄 DICOM File Selected",
+          text: `You have selected a DICOM file: ${file.name}`,
+          timer: 2000,
+          showConfirmButton: false,
+        });
       }
-
-      Swal.fire({
-        icon: "success",
-        title: "✅ File Selected",
-        text: `You have selected: ${file.name}`,
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      
     } else {
       Swal.fire({
         icon: "warning",
@@ -50,9 +52,10 @@ const RadiologyForm = ({ onSubmit }) => {
       });
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.image) {
+    if (!formData.images) {
       Swal.fire({
         icon: "error",
         title: "⚠️ Missing Image",
@@ -60,6 +63,7 @@ const RadiologyForm = ({ onSubmit }) => {
       });
       return;
     }
+
     Swal.fire({
       icon: "info",
       title: "Submitting...",
@@ -67,13 +71,14 @@ const RadiologyForm = ({ onSubmit }) => {
       showConfirmButton: false,
       timer: 3000,
     });
+
     onSubmit(formData);
+
     setFormData({
-      citizenNid: "",
-      radiologyType: "",
+      national_ID: "", 
+      radiology_type: "",
       radiologistNotes: "",
-      radiologyDate: "",
-      image: null,
+      images: null,
     });
     setPreviewURL(null);
   };
@@ -83,12 +88,12 @@ const RadiologyForm = ({ onSubmit }) => {
       <h2 className="text-center fw-bold text-primary">Create Radiology Record</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Citizen NID:</label>
+          <label className="form-label">National ID:</label>
           <input
             type="text"
-            name="citizenNid"
+            name="national_ID"
             className="form-control"
-            value={formData.citizenNid || ""}
+            value={formData.national_ID || ""}
             onChange={handleChange}
             required
           />
@@ -98,9 +103,9 @@ const RadiologyForm = ({ onSubmit }) => {
           <label className="form-label">Radiology Type:</label>
           <input
             type="text"
-            name="radiologyType"
+            name="radiology_type"
             className="form-control"
-            value={formData.radiologyType || ""}
+            value={formData.radiology_type || ""}
             onChange={handleChange}
             required
           />
@@ -112,32 +117,22 @@ const RadiologyForm = ({ onSubmit }) => {
             name="radiologistNotes"
             className="form-control"
             value={formData.radiologistNotes || ""}
-            onChange={handleChange}
+            onChange={handleChange} 
             required
           ></textarea>
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Radiology Date:</label>
-          <input
-            type="date"
-            name="radiologyDate"
-            className="form-control"
-            value={formData.radiologyDate || ""}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Upload Image (JPG, PNG):</label>
+          <label className="form-label">Upload Image (JPG, PNG, DICOM):</label>
           <input
             type="file"
-            accept=".dcm, .jpg, .jpeg, .png"
+            accept=".DCM, .jpg, .jpeg, .png"
             className="form-control"
             onChange={handleFileUpload}
             required
           />
         </div>
+
         {previewURL && (
           <div className="text-center">
             <h5 className="text-success">Image Preview:</h5>
@@ -148,6 +143,7 @@ const RadiologyForm = ({ onSubmit }) => {
             />
           </div>
         )}
+
         <button type="submit" className="btn btn-warning w-100 mt-3">
           Submit
         </button>
@@ -157,5 +153,3 @@ const RadiologyForm = ({ onSubmit }) => {
 };
 
 export default RadiologyForm;
-
-
